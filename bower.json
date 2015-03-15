@@ -1,0 +1,28 @@
+{
+  "name": "jquery-during-scroll",
+  "main": "jquery-during-scroll.js",
+  "version": "0.0.1",
+  "authors": [
+    "Jack <jack@ofspades.com>"
+  ],
+  "description": "A plugin to handle callbacks during and after a scroll event.",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "jQuery",
+    "scroll",
+    "onscroll"
+  ],
+  "license": "Creative Commons Attribution-ShareAlike 4.0 International",
+  "homepage": "https://jack.ofspades.com/jquery-during-scroll/",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

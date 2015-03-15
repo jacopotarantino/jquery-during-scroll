@@ -1,0 +1,33 @@
+{
+  "name": "jquery-during-scroll",
+  "version": "0.0.1",
+  "description": "A plugin to handle callbacks during and after a scroll event.",
+  "main": "jquery-during-scroll.js",
+  "directories": {
+    "test": "karma"
+  },
+  "scripts": {
+    "test": "CODECLIMATE_REPO_TOKEN=d8038d0e98ed952fe1894c601075aba6eee01c5ab7d0e4f82a93babfc7689c8a karma && codeclimate < lcov.info"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jacopotarantino/jquery-during-scroll.git"
+  },
+  "keywords": [
+    "jQuery",
+    "scroll",
+    "onscroll"
+  ],
+  "author": "Jack <jack@ofspades.com>",
+  "license": "Creative Commons Attribution-ShareAlike 4.0 International",
+  "bugs": {
+    "url": "https://github.com/jacopotarantino/jquery-during-scroll/issues"
+  },
+  "homepage": "https://github.com/jacopotarantino/jquery-during-scroll",
+  "devDependencies": {
+    "codeclimate-test-reporter": "0.0.4",
+    "jasmine-core": "^2.2.0",
+    "karma": "^0.12.31",
+    "karma-jasmine": "^0.3.5"
+  }
+}
