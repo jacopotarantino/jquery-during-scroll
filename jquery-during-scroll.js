@@ -1,11 +1,21 @@
 (function(window) {
   'use strict';
   /**
-   * @module TKPL
-   * @todo add a string-based state so we can optionally not run a callback more than once during a scroll.
+   * @module duringScroll
    */
+  function duringScroll(options) {
+    var topOffset = 0,
+        state = 'not scrolling',
+        noop = function() {},
+        defaultOptions = {
+          interval: 60,
+          always: noop,
+          scrollStart: noop,
+          duringScroll: noop,
+          afterScroll: noop
+        };
+  }
 
-  var top_offset = 0;
 
   function handle_scrolling(scrolling, not_scrolling) {
     if(document.body.scrollTop === top_offset) {
@@ -19,35 +29,41 @@
   }
 
   /**
-   * @method TKPL.currently_scrolling
+   * @method currently_scrolling
    * @description helper method that invokes functions during and after scroll.
    * @param scrolling - function to execute while scrolling.
    * @param
    */
-  window.TKPL.currently_scrolling = function currently_scrolling(scrolling, not_scrolling) {
+  function currently_scrolling(scrolling, not_scrolling) {
     setInterval(function() {
       handle_scrolling(scrolling, not_scrolling);
-    }, 60);
-  };
+    }, options.interval);
+  }
+
+
+  var hasDefine = typeof window.define === 'function' && window.define.amd,
+      hasExports = typeof window.module !== 'undefined',
+      hasJquery = typeof window.jQuery !== 'undefined';
+
+
+  if( hasDefine ) {
+    window.define(function() {
+      return {
+        duringScroll: duringScroll
+      };
+    });
+  }
+
+  if( hasExports ) {
+    window.module.exports = duringScroll;
+  }
+
+  if( hasJquery ) {
+    window.jQuery.duringScroll = duringScroll;
+  }
+
+  if( !hasDefine && !hasExports && !hasJquery ) {
+    window.duringScroll = duringScroll;
+  }
+
 })(window);
-
-
-
-
-(function() {
-  'use strict';
-  /**
-   * @description Init code to change the opacity of the back-to-top button during scroll.
-   */
-  $('body').append( $('<style>.back-to-top.scrolling { opacity: 0.6; }</style>') );
-
-  var $back_to_top = $('.js-back-to-top');
-
-  TKPL.currently_scrolling(function() {
-    $back_to_top.addClass('scrolling');
-  },
-  function() {
-    $back_to_top.removeClass('scrolling');
-  });
-})();
-

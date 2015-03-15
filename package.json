@@ -7,7 +7,7 @@
     "test": "karma"
   },
   "scripts": {
-    "test": "CODECLIMATE_REPO_TOKEN=d8038d0e98ed952fe1894c601075aba6eee01c5ab7d0e4f82a93babfc7689c8a karma && codeclimate < lcov.info"
+    "test": "./node_modules/karma/bin/karma start && CODECLIMATE_REPO_TOKEN=d8038d0e98ed952fe1894c601075aba6eee01c5ab7d0e4f82a93babfc7689c8a codeclimate < coverage/report-lcov/lcov.info"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,9 @@
     "codeclimate-test-reporter": "0.0.4",
     "jasmine-core": "^2.2.0",
     "karma": "^0.12.31",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-coffee-preprocessor": "^0.2.1",
+    "karma-coverage": "^0.2.7",
     "karma-jasmine": "^0.3.5"
   }
 }
