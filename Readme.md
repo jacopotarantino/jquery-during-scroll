@@ -25,13 +25,23 @@ bower install --save jquery-during-scroll
 Below is an example usage that has all the default options:
 
 ```javascript
-$.duringScroll({
+var scrollInterval = $.duringScroll({
   interval: 60,
-  scrollStart: noop,
-  duringScroll: noop,
-  afterScroll: noop
+  always: function() {},
+  scrollStart: function() {},
+  duringScroll: function() {},
+  afterScroll: function() {}
 });
 ```
+
+The function returns a reference to the interval instance so that you can kill it if need be. An example assuming you called the method as above and stored the instance in a `scrollInterval` variable:
+
+```javascript
+$('body').on('click', function() {
+  clearInterval(scrollInterval);
+});
+```
+
 
 ### Options
 

@@ -2,49 +2,70 @@
   'use strict';
   /**
    * @module duringScroll
+   * @param {Object} opts - a hash of optional overrides.
+   * @returns {Number} - a reference to the interval invoked.
    */
-  function duringScroll(options) {
-    var topOffset = 0,
+  function duringScroll(opts) {
+    var top_offset = document.body.scrollTop,
         state = 'not scrolling',
         noop = function() {},
-        defaultOptions = {
+        default_options = {
           interval: 60,
           always: noop,
           scrollStart: noop,
           duringScroll: noop,
           afterScroll: noop
-        };
-  }
+        },
+        options = merge_hashes(default_options, opts);
 
+    function handle_scrolling(scrollStart, duringScroll, afterScroll) {
+      if(state === 'not scrolling' && top_offset !== document.body.scrollTop) {
+        // we've started scrolling
+        top_offset = document.body.scrollTop;
+        state = 'scrolling';
+        scrollStart();
+      }
 
-  function handle_scrolling(scrolling, not_scrolling) {
-    if(document.body.scrollTop === top_offset) {
-      top_offset = document.body.scrollTop;
-      not_scrolling ? not_scrolling() : null;
+      if(state === 'scrolling' && top_offset !== document.body.scrollTop) {
+        // we're still scrolling
+        top_offset = document.body.scrollTop;
+        duringScroll();
+      }
 
-    } else {
-      top_offset = document.body.scrollTop;
-      scrolling();
+      if(state === 'scrolling' && top_offset === document.body.scrollTop) {
+        // we've stopped scrolling
+        top_offset = document.body.scrollTop;
+        state = 'not scrolling';
+        afterScroll();
+      }
     }
-  }
 
-  /**
-   * @method currently_scrolling
-   * @description helper method that invokes functions during and after scroll.
-   * @param scrolling - function to execute while scrolling.
-   * @param
-   */
-  function currently_scrolling(scrolling, not_scrolling) {
-    setInterval(function() {
-      handle_scrolling(scrolling, not_scrolling);
+    return setInterval(function() {
+      options.always();
+      handle_scrolling(options.scrollStart, options.duringScroll, options.afterScroll);
+
     }, options.interval);
   }
 
+  function merge_hashes() {
+    var new_hash = {};
 
+    Array.prototype.forEach.call(arguments, function(obj) {
+      Object.keys(obj).forEach(function(property, index) {
+        new_hash[property] = obj[property];
+      });
+    });
+
+    return new_hash;
+  }
+
+
+  /**
+   * @description export the module based on environment.
+   */
   var hasDefine = typeof window.define === 'function' && window.define.amd,
       hasExports = typeof window.module !== 'undefined',
       hasJquery = typeof window.jQuery !== 'undefined';
-
 
   if( hasDefine ) {
     window.define(function() {
