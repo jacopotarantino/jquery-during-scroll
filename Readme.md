@@ -19,6 +19,10 @@ Include the script after jQuery and any other dependencies(such as requirejs) if
 bower install --save jquery-during-scroll
 ```
 
+### Manually
+
+Copy the file `source/jquery-during-scroll.js` into your project and reference it in a `<script>` tag at the end of the `<body>` tag in your HTML.
+
 
 ## API
 

@@ -1,7 +1,7 @@
 {
   "name": "jquery-during-scroll",
-  "main": "jquery-during-scroll.js",
-  "version": "0.0.1",
+  "main": "source/jquery-during-scroll.js",
+  "version": "1.0.0",
   "authors": [
     "Jack <jack@ofspades.com>"
   ],
