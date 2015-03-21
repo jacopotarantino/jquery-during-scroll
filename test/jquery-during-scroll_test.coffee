@@ -27,33 +27,102 @@ describe 'module duringScroll', ->
 
 
   describe 'API options', ->
+    beforeEach ->
+      jasmine.clock().install()
+
+    afterEach ->
+      jasmine.clock().uninstall()
+
     describe '#interval', ->
-      it 'alters the frequency at which the script is invoked', (done) ->
+      it 'alters the frequency at which the script is invoked', ->
         spy = jasmine.createSpyObj('spy', ['fakeHandler'])
         options =
           always: spy.fakeHandler,
           interval: 200
         reference = jQuery.duringScroll options
-        setTimeout ->
-          clearInterval(reference)
 
-          expect( spy.fakeHandler.calls.count() ).toBe 5
+        jasmine.clock().tick(1050)
 
-          done()
-        , 1050
+        clearInterval(reference)
+        expect( spy.fakeHandler.calls.count() ).toBe 5
 
-  #   describe '#always', ->
-  #     it 'alters the frequency at which the script is invoked', ->
-  #       expect( fakeHandler.calls.count ).toBe 5
+    describe '#always', ->
+      it 'gets invoked every interval no matter what', ->
+        spy = jasmine.createSpyObj('spy', ['fakeHandler'])
+        options =
+          always: spy.fakeHandler,
+          interval: 200
+        reference = jQuery.duringScroll options
 
-  #   describe '#scrollStart', ->
-  #     it 'alters the frequency at which the script is invoked', ->
-  #       expect( fakeHandler.calls.count ).toBe 5
+        jasmine.clock().tick(450)
 
-  #   describe '#duringScroll', ->
-  #     it 'alters the frequency at which the script is invoked', ->
-  #       expect( fakeHandler.calls.count ).toBe 5
+        clearInterval(reference)
+        expect( spy.fakeHandler.calls.count() ).toBe 2
 
-  #   describe '#afterScroll', ->
-  #     it 'alters the frequency at which the script is invoked', ->
-  #       expect( fakeHandler.calls.count ).toBe 5
+    describe '#scrollStart', ->
+      it 'only gets called when the user starts scrolling', ->
+        spy = jasmine.createSpyObj('spy', ['fakeHandler'])
+        options =
+          scrollStart: spy.fakeHandler
+        reference = jQuery.duringScroll options
+
+        jasmine.clock().tick(450)
+
+        expect( spy.fakeHandler.calls.count() ).toBe 0
+        document.body.scrollTop = 150
+
+        jasmine.clock().tick(200)
+
+        clearInterval(reference)
+        expect( spy.fakeHandler.calls.count() ).toBe 0
+
+    describe '#duringScroll', ->
+      it 'executes every interval while the user is scrolling', ->
+        document.body.style.height = '5000px'
+
+        spy = jasmine.createSpyObj('spy', ['fakeHandler'])
+        options =
+          duringScroll: spy.fakeHandler
+        reference = jQuery.duringScroll options
+
+        test_reference = setInterval ->
+          document.body.scrollTop = document.body.scrollTop + 5
+        , 5
+
+        jasmine.clock().tick(290)
+
+        clearInterval(test_reference)
+        expect( spy.fakeHandler.calls.count() ).toBe 3
+
+        # callback will get called one more time
+        jasmine.clock().tick(100)
+
+        spy.fakeHandler.calls.reset()
+
+        jasmine.clock().tick(200)
+
+        clearInterval(reference)
+        expect( spy.fakeHandler.calls.count() ).toBe 0
+
+    describe '#afterScroll', ->
+      it 'executes only when the user has stopped scrolling', ->
+        document.body.style.height = '5000px'
+
+        spy = jasmine.createSpyObj('spy', ['fakeHandler'])
+        options =
+          afterScroll: spy.fakeHandler
+        reference = jQuery.duringScroll options
+
+        test_reference = setInterval ->
+          document.body.scrollTop = document.body.scrollTop + 5
+        , 5
+
+        jasmine.clock().tick(290)
+
+        expect( spy.fakeHandler.calls.count() ).toBe 0
+        clearInterval(test_reference)
+
+        jasmine.clock().tick(200)
+
+        clearInterval(reference)
+        expect( spy.fakeHandler.calls.count() ).toBe 1

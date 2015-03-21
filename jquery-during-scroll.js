@@ -24,17 +24,14 @@
         top_offset = document.body.scrollTop;
         state = 'scrolling';
         scrollStart();
-      }
 
-      if(state === 'scrolling' && top_offset !== document.body.scrollTop) {
+      } else if(state === 'scrolling' && top_offset !== document.body.scrollTop) {
         // we're still scrolling
         top_offset = document.body.scrollTop;
         duringScroll();
-      }
 
-      if(state === 'scrolling' && top_offset === document.body.scrollTop) {
+      } else if(state === 'scrolling' && top_offset === document.body.scrollTop) {
         // we've stopped scrolling
-        top_offset = document.body.scrollTop;
         state = 'not scrolling';
         afterScroll();
       }
