@@ -1,6 +1,6 @@
 {
   "name": "jquery-during-scroll",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A plugin to handle callbacks during and after a scroll event.",
   "main": "jquery-during-scroll.js",
   "directories": {
