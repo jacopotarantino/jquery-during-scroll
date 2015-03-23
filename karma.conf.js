@@ -10,7 +10,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'test/support/boot.js',
-      'source/jquery-during-scroll.js',
+      'source/during-scroll.js',
       'test/jquery-during-scroll_test.coffee'
     ],
 
@@ -21,7 +21,7 @@ module.exports = function(config) {
       // source files, that you wanna generate coverage for
       // do not include tests or libraries
       // (these files will be instrumented by Istanbul)
-      'source/jquery-during-scroll.js': ['coverage'],
+      'source/during-scroll.js': ['coverage'],
       '**/*.coffee': ['coffee']
     },
 
